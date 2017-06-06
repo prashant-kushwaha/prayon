@@ -112,6 +112,14 @@
 				</attributes>
 			</itemtype>
 		</typegroup>
+		
+		<typegroup name="Prayon">
+			<itemtype code="PrayonProduct" extends="Product"
+          autocreate="true" generate="true" >
+				 <description>Prayon product
+				</description>
+			</itemtype>
+		</typegroup>
 
 	</itemtypes>
 </items>
