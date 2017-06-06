@@ -1,0 +1,16 @@
+# Macros / Replacement Parameter definitions
+$baseStoreUID=prayon
+$warehouseCode=warehouseprayon
+$defaultPassword=1234
+$passwordEncoding=md5
+$setDefaultPassword=@password[translator=de.hybris.platform.impex.jalo.translators.ConvertPlaintextToEncodedUserPasswordTranslator][default='$passwordEncoding:$defaultPassword']
+$standardHours=prayon-ireland-standard-hours
+$specialHours=prayon-ireland-special-hours
+$productCatalog=prayonProductCatalog
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default='$productCatalog:Staged']
+
+INSERT_UPDATE Warehouse;code[unique=true];name;vendor(code)[default=default];default[default=true];
+;warehouseprayon;prayon warehouse;;;
+
+INSERT_UPDATE StockLevel;productCode[unique=true];warehouse(code)[default='warehouseprayon',unique=true];inStockStatus(code)[default='forceInStock'];
+
