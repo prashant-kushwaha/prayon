@@ -42,6 +42,7 @@ public class InitialDataSystemSetup extends AbstractSystemSetup
 	private static final String IMPORT_CORE_DATA = "importCoreData";
 	private static final String IMPORT_SAMPLE_DATA = "importSampleData";
 	private static final String ACTIVATE_SOLR_CRON_JOBS = "activateSolrCronJobs";
+	private static final String PRAYON = "prayon";
 
 	private CoreDataImportService coreDataImportService;
 	private SampleDataImportService sampleDataImportService;
@@ -103,9 +104,20 @@ public class InitialDataSystemSetup extends AbstractSystemSetup
 	@SystemSetup(type = Type.PROJECT, process = Process.ALL)
 	public void createProjectData(final SystemSetupContext context)
 	{
-		/*
-		 * Add import data for each site you have configured
-		 */
+		final List<ImportData> importData = new ArrayList<ImportData>();
+
+		final ImportData hybrisImportData = new ImportData();
+
+		hybrisImportData.setProductCatalogName(PRAYON);
+		hybrisImportData.setContentCatalogNames(Arrays.asList(PRAYON));
+		hybrisImportData.setStoreNames(Arrays.asList(PRAYON));
+		importData.add(hybrisImportData);
+
+		getCoreDataImportService().execute(this, context, importData);
+		getEventService().publishEvent(new CoreDataImportedEvent(context, importData));
+
+		getSampleDataImportService().execute(this, context, importData);
+		getEventService().publishEvent(new SampleDataImportedEvent(context, importData));
 	}
 
 	public CoreDataImportService getCoreDataImportService()
